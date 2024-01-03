@@ -37,7 +37,7 @@ app.get('/generate/:id', async (c) => {
 	const resp = new Response(img, {
 		headers: {
 			"content-type": "image/jpeg",
-			"cache-control": "s-maxage=60",
+			"cache-control": "public, s-maxag=120",
 		},
 	})
 
