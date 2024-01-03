@@ -12,9 +12,11 @@ const Layout: FC = (props) => {
 }
 
 const Top: FC<{ messages: string[] }> = (props: { messages: string[] }) => {
+	const now = new Date()
 	return (
 		<Layout>
-			<h1>Hello Hono!</h1>
+			<h1>Hello World!</h1>
+			<p>now: {now.toISOString()}</p>
 			<ul>
 				{props.messages.map((message) => {
 					return <li>{message}!!</li>
@@ -24,7 +26,7 @@ const Top: FC<{ messages: string[] }> = (props: { messages: string[] }) => {
 	)
 }
 
-app.get('/', (c) => {
+app.get('/greet', (c) => {
 	const messages = ['Good Morning', 'Good Evening', 'Good Night']
 	return c.html(<Top messages={messages} />)
 })
