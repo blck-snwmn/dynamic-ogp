@@ -12,6 +12,7 @@ const app = new Hono<{ Bindings: Bindings }>()
 
 app.get('/generate/:id', async (c) => {
 	const { id } = c.req.param()
+	console.log(`id: ${id}`)
 
 	const browser = await puppeteer.launch(c.env.MYBROWSER);
 	const page = await browser.newPage();
