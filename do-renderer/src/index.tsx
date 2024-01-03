@@ -11,11 +11,12 @@ const Layout: FC = (props) => {
 	)
 }
 
-const Top: FC<{ messages: string[] }> = (props: { messages: string[] }) => {
+const Top: FC<{ messages: string[], id: string }> = (props: { messages: string[], id: string }) => {
 	const now = new Date()
 	return (
 		<Layout>
 			<h1>Hello World!</h1>
+			<p>id: {props.id}</p>
 			<p>now: {now.toISOString()}</p>
 			<ul>
 				{props.messages.map((message) => {
@@ -26,9 +27,10 @@ const Top: FC<{ messages: string[] }> = (props: { messages: string[] }) => {
 	)
 }
 
-app.get('/greet', (c) => {
+app.get('/greet/:id', (c) => {
+	const { id } = c.req.param()
 	const messages = ['Good Morning', 'Good Evening', 'Good Night']
-	return c.html(<Top messages={messages} />)
+	return c.html(<Top messages={messages} id={id} />)
 })
 
 export default app;
