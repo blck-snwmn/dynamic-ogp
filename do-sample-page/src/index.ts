@@ -1,18 +1,18 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 
 type Bindings = {
-	URL: string
-}
+	URL: string;
+};
 
-const app = new Hono<{ Bindings: Bindings }>()
+const app = new Hono<{ Bindings: Bindings }>();
 
-app.get('/page/:id', (c) => {
-	const url = c.req.url
-	const { id } = c.req.param()
-	const imageURL = `${c.env.URL}/${id}`
-	console.log(`URL: ${url}`)
-	console.log(`id: ${id}`)
-	console.log(`imageURL: ${imageURL}`)
+app.get("/page/:id", (c) => {
+	const url = c.req.url;
+	const { id } = c.req.param();
+	const imageURL = `${c.env.URL}/${id}`;
+	console.log(`URL: ${url}`);
+	console.log(`id: ${id}`);
+	console.log(`imageURL: ${imageURL}`);
 	return c.html(`
 		<html>
 		<head prefix="og: http://ogp.me/ns#">
@@ -30,7 +30,7 @@ app.get('/page/:id', (c) => {
 			<p>id: ${id}</p>
 		</body>
 		</html>
-	`)
-})
+	`);
+});
 
-export default app
+export default app;
