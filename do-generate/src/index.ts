@@ -11,6 +11,16 @@ type Bindings = {
 const app = new Hono<{ Bindings: Bindings }>()
 
 app.get('/generate/:id', async (c) => {
+	const cacheKey = new Request(c.req.url)
+	const cache = caches.default
+
+	const respCahce = await cache.match(cacheKey)
+	if (respCahce) {
+		console.log("cache hit")
+		return respCahce
+	}
+	console.log("cache miss")
+
 	const { id } = c.req.param()
 	console.log(`id: ${id}`)
 
@@ -21,12 +31,20 @@ app.get('/generate/:id', async (c) => {
 	await page.goto(`${c.env.URL}/${id}`);
 
 	const img = (await page.screenshot()) as Buffer;
-	await browser.close();
-	return new Response(img, {
+
+	c.executionCtx.waitUntil(browser.close())
+
+	const resp = new Response(img, {
 		headers: {
 			"content-type": "image/jpeg",
+			"cache-control": "s-maxage=60",
 		},
-	});
+	})
+
+	await cache.put(cacheKey, resp.clone())
+	console.log("cache put")
+
+	return resp;
 })
 
 export default app;
