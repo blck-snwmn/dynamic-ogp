@@ -43,6 +43,22 @@ importers:
         specifier: ^3.22.2
         version: 3.22.2
 
+  do-sample-page:
+    dependencies:
+      hono:
+        specifier: ^3.11.12
+        version: 3.11.12
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20231218.0
+        version: 4.20231218.0
+      typescript:
+        specifier: ^5.0.4
+        version: 5.3.3
+      wrangler:
+        specifier: ^3.0.0
+        version: 3.22.2
+
 packages:
 
   /@biomejs/biome@1.4.1:
