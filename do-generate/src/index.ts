@@ -40,8 +40,7 @@ app.get("/generate/:id", async (c) => {
 		},
 	});
 
-	await cache.put(cacheKey, resp.clone());
-	console.log("cache put");
+	c.executionCtx.waitUntil(cache.put(cacheKey, resp.clone()));
 
 	return resp;
 });
