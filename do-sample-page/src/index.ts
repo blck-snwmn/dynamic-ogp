@@ -18,6 +18,7 @@ app.get('/page/:id', (c) => {
 		<head prefix="og: http://ogp.me/ns#">
 			<title>Sample Page</title>
 			<meta property="og:title" content="Sample Page">
+			<meta property="og:site_name" content="Sample Page">
 			<meta property="og:type" content="article">
 			<meta property="og:url" content="${url}">
 			<meta property="og:description" content="This is a sample page.">
