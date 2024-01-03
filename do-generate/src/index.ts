@@ -1,34 +1,45 @@
 import { Buffer } from "node:buffer";
+import { Hono } from 'hono'
 import puppeteer from "@cloudflare/puppeteer";
 
-export type Env = {
+
+type Bindings = {
 	MYBROWSER: puppeteer.BrowserWorker;
-	URL: string;
-};
+	URL: string
+}
 
-export default {
-	async fetch(
-		request: Request,
-		env: Env,
-		ctx: ExecutionContext,
-	): Promise<Response> {
-		const url = new URL(request.url);
-		if (url.pathname !== "/generate") {
-			return new Response("Not found", { status: 404 });
-		}
+const app = new Hono<{ Bindings: Bindings }>()
 
-		const browser = await puppeteer.launch(env.MYBROWSER);
-		const page = await browser.newPage();
-		await page.setViewport({ width: 300, height: 100 });
+app.get('/generate/:id', async (c) => {
+	const { id } = c.req.param()
 
-		await page.goto(env.URL);
+	const browser = await puppeteer.launch(c.env.MYBROWSER);
+	const page = await browser.newPage();
+	await page.setViewport({ width: 300, height: 100 });
 
-		const img = (await page.screenshot()) as Buffer;
-		await browser.close();
-		return new Response(img, {
-			headers: {
-				"content-type": "image/jpeg",
-			},
-		});
-	},
-};
+	await page.goto(`${c.env.URL}/${id}`);
+
+	const img = (await page.screenshot()) as Buffer;
+	await browser.close();
+	return new Response(img, {
+		headers: {
+			"content-type": "image/jpeg",
+		},
+	});
+})
+
+export default app;
+
+// export type Env = {
+// 	URL: string;
+// };
+
+// export default {
+// 	async fetch(
+// 		request: Request,
+// 		env: Env,
+// 		ctx: ExecutionContext,
+// 	): Promise<Response> {
+// 		
+// 	},
+// };
