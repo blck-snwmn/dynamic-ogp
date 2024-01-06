@@ -1,5 +1,5 @@
 # dynamic-ogp
-dynamic ogp sample
+cf worker sample to dynamically generate OGP images.
 
 ## Install
 ```bash
