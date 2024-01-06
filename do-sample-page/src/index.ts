@@ -10,9 +10,8 @@ app.get("/page/:id", (c) => {
 	const url = c.req.url;
 	const { id } = c.req.param();
 	const imageURL = `${c.env.URL}/${id}`;
-	console.log(`URL: ${url}`);
-	console.log(`id: ${id}`);
-	console.log(`imageURL: ${imageURL}`);
+	console.info(`URL: ${url}, id: ${id}, imageURL: ${imageURL}`);
+	// c.executionCtx.waitUntil(fetch(imageURL));
 	return c.html(`
 		<html>
 		<head prefix="og: http://ogp.me/ns#">
