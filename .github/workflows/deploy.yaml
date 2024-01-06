@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    strategy:
+      matrix:
+        directory: 
+          - do-generate
+          - do-renderer
+          - do-sample-page
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get all changed markdown files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files: |
+            ${{ matrix.directory }}/**
+            .github/workflows/deploy.yaml
+      - uses: pnpm/action-setup@v2
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}  
+        with:
+          version: 8
+      - name: Deploy
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          packageManager: pnpm
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          workingDirectory: ${{ matrix.directory }}
+        
