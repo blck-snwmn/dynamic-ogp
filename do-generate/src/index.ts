@@ -82,7 +82,7 @@ export class Browser {
 		return new Response(img, {
 			headers: {
 				"content-type": "image/jpeg",
-				"cache-control": "public, s-maxag=120",
+				"cache-control": "public, s-maxag=3600",
 			},
 		});
 	}
