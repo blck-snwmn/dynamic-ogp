@@ -1,6 +1,6 @@
 import { Buffer } from "node:buffer";
-import { Hono } from "hono";
 import puppeteer from "@cloudflare/puppeteer";
+import { Hono } from "hono";
 
 type Bindings = {
 	MYBROWSER: puppeteer.BrowserWorker;
@@ -91,7 +91,9 @@ export class Browser {
 		this.keepAliveInSec += 10;
 		if (this.keepAliveInSec < KEEP_BROWSER_ALIVE_IN_SECONDS) {
 			// set alarm again if browser is alive
-			console.info(`set alarm again in alarm(): keepAliveInSec: ${this.keepAliveInSec}`);
+			console.info(
+				`set alarm again in alarm(): keepAliveInSec: ${this.keepAliveInSec}`,
+			);
 			this.storage.setAlarm(Date.now() + TEN_SECONDS);
 			return;
 		}
