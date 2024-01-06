@@ -61,17 +61,3 @@ app.get("/generate/:id", async (c) => {
 });
 
 export default app;
-
-// export type Env = {
-// 	URL: string;
-// };
-
-// export default {
-// 	async fetch(
-// 		request: Request,
-// 		env: Env,
-// 		ctx: ExecutionContext,
-// 	): Promise<Response> {
-//
-// 	},
-// };
