@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  check:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,4 +14,4 @@ jobs:
           run_install: true
       - name: lint
         run: |
-          pnpm biome check .
+          pnpm biome ci .
