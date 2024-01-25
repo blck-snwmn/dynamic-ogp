@@ -22,6 +22,8 @@ app.get("/page/:id", (c) => {
 			<meta property="og:url" content="${url}">
 			<meta property="og:description" content="This is a sample page.">
 			<meta property="og:image" content="${imageURL}">
+			<meta property="twitter:title" content="Sample Page">
+			<meta property="twitter:card" content="summary_large_image">
 		</head>
 		<body>
 			<h1>Sample Page</h1>
