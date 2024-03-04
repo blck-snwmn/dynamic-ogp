@@ -1,14 +1,23 @@
 import { Hono } from "hono";
-import type { FC } from "hono/jsx";
-
+import satori from "satori";
+import { FC } from "react";
 
 const app = new Hono();
 
-const Layout: FC = (props) => {
+type Props = {
+	children?: React.ReactNode;
+};
+
+const Layout: FC<Props> = (props) => {
 	return (
-		<html lang="en">
-			<body>{props.children}</body>
-		</html>
+		<div style={{
+			display: "flex",
+			flexDirection: "column",
+			backgroundColor: "lightgray",
+			padding: "10px",
+		}}>
+			{props.children}
+		</div>
 	);
 };
 
@@ -20,21 +29,62 @@ const Top: FC<{ messages: string[]; id: string }> = (props: {
 	return (
 		<Layout>
 			<h1>Hello World!</h1>
-			<p>id: {props.id}</p>
-			<p>now: {now.toISOString()}</p>
+			<div style={{
+				display: "flex",
+			}}>id: {props.id}</div>
+			<div style={{
+				display: "flex",
+			}}>now: {now.toISOString()}</div>
 			<ul>
-				{props.messages.map((message) => {
-					return <li>{message}!!</li>;
+				{props.messages.map((message, index) => {
+					// biome-ignore lint/suspicious/noArrayIndexKey: message is static
+					return <li key={index}>{message}!!</li>;
 				})}
 			</ul>
 		</Layout>
 	);
 };
 
-app.get("/greet/:id", (c) => {
+app.get("/greet/:id", async (c) => {
+	const familyResp = await fetch(
+		"https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700",
+	);
+	if (!familyResp.ok) {
+		throw new Error("Failed to load font data");
+	}
+	const css = await familyResp.text();
+	const resource = css.match(
+		/src: url\((.+)\) format\('(opentype|truetype)'\)/,
+	);
+	if (!resource) {
+		throw new Error("Failed to parse font data");
+	}
+
+	const fontDataResp = await fetch(resource[1]);
+	const fontData = await fontDataResp.arrayBuffer();
+
 	const { id } = c.req.param();
 	const messages = ["Good Morning", "Good Evening", "Good Night"];
-	return c.html(<Top messages={messages} id={id} />);
-});
+	const svg = await satori(
+		<Top messages={messages} id={id} />,
+		{
+			width: 600,
+			height: 400,
+			fonts: [
+				{
+					name: "Roboto",
+					data: fontData,
+					weight: 400,
+					style: "normal",
+				},
+			],
+		},
+	);
+	return new Response(svg, {
+		headers: {
+			"Content-Type": "image/svg+xml",
+		},
+	});
+})
 
 export default app;
