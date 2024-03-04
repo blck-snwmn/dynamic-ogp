@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import satori from "satori";
 import { FC } from "react";
+import satori from "satori";
 
 const app = new Hono();
 
@@ -10,12 +10,14 @@ type Props = {
 
 const Layout: FC<Props> = (props) => {
 	return (
-		<div style={{
-			display: "flex",
-			flexDirection: "column",
-			backgroundColor: "lightgray",
-			padding: "10px",
-		}}>
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				backgroundColor: "lightgray",
+				padding: "10px",
+			}}
+		>
 			{props.children}
 		</div>
 	);
@@ -29,12 +31,20 @@ const Top: FC<{ messages: string[]; id: string }> = (props: {
 	return (
 		<Layout>
 			<h1>Hello World!</h1>
-			<div style={{
-				display: "flex",
-			}}>id: {props.id}</div>
-			<div style={{
-				display: "flex",
-			}}>now: {now.toISOString()}</div>
+			<div
+				style={{
+					display: "flex",
+				}}
+			>
+				id: {props.id}
+			</div>
+			<div
+				style={{
+					display: "flex",
+				}}
+			>
+				now: {now.toISOString()}
+			</div>
 			<ul>
 				{props.messages.map((message, index) => {
 					// biome-ignore lint/suspicious/noArrayIndexKey: message is static
@@ -65,26 +75,23 @@ app.get("/greet/:id", async (c) => {
 
 	const { id } = c.req.param();
 	const messages = ["Good Morning", "Good Evening", "Good Night"];
-	const svg = await satori(
-		<Top messages={messages} id={id} />,
-		{
-			width: 600,
-			height: 400,
-			fonts: [
-				{
-					name: "Roboto",
-					data: fontData,
-					weight: 400,
-					style: "normal",
-				},
-			],
-		},
-	);
+	const svg = await satori(<Top messages={messages} id={id} />, {
+		width: 600,
+		height: 400,
+		fonts: [
+			{
+				name: "Roboto",
+				data: fontData,
+				weight: 400,
+				style: "normal",
+			},
+		],
+	});
 	return new Response(svg, {
 		headers: {
 			"Content-Type": "image/svg+xml",
 		},
 	});
-})
+});
 
 export default app;
