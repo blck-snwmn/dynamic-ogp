@@ -15,6 +15,7 @@ jobs:
           - do-generate
           - do-renderer
           - do-sample-page
+          - do-converter
 
     steps:
       - uses: actions/checkout@v4
