@@ -4,7 +4,6 @@ import type { FC } from "hono/jsx";
 
 const app = new Hono();
 
-
 const Layout: FC = (props) => {
 	return (
 		<html lang="en">
