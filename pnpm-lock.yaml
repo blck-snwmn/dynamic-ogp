@@ -13,6 +13,10 @@ importers:
         version: 1.5.3
 
   do-converter:
+    dependencies:
+      hono:
+        specifier: ^4.0.8
+        version: 4.0.8
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20240222.0
