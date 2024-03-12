@@ -1,6 +1,10 @@
 import { Hono } from "hono";
 import { FC } from "react";
 import satori from "satori";
+import { Resvg, initWasm } from '@resvg/resvg-wasm';
+import resvgWasm from './vender/resvg.wasm';
+
+await initWasm(resvgWasm);
 
 const app = new Hono();
 
@@ -14,7 +18,7 @@ const Layout: FC<Props> = (props) => {
 			style={{
 				display: "flex",
 				flexDirection: "column",
-				backgroundColor: "lightgray",
+				// backgroundColor: "lightgray",
 				padding: "10px",
 			}}
 		>
@@ -76,8 +80,8 @@ app.get("/greet/:id", async (c) => {
 	const { id } = c.req.param();
 	const messages = ["Good Morning", "Good Evening", "Good Night"];
 	const svg = await satori(<Top messages={messages} id={id} />, {
-		width: 600,
-		height: 400,
+		width: 400,
+		height: 200,
 		fonts: [
 			{
 				name: "Roboto",
@@ -87,9 +91,21 @@ app.get("/greet/:id", async (c) => {
 			},
 		],
 	});
-	return new Response(svg, {
+
+	const resvg = new Resvg(svg, {
+		fitTo: {
+			mode: "original",
+		},
+		background: "lightgray",
+	})
+	console.log(resvg.width, resvg.height)
+
+	const pngData = resvg.render()
+	console.log(pngData.width, pngData.height)
+	const pngBuffer = pngData.asPng()
+	return new Response(pngBuffer, {
 		headers: {
-			"Content-Type": "image/svg+xml",
+			"Content-Type": "image/png",
 		},
 	});
 });
