@@ -98,10 +98,8 @@ app.get("/greet/:id", async (c) => {
 		},
 		background: "lightgray",
 	})
-	console.log(resvg.width, resvg.height)
 
 	const pngData = resvg.render()
-	console.log(pngData.width, pngData.height)
 	const pngBuffer = pngData.asPng()
 	return new Response(pngBuffer, {
 		headers: {
