@@ -1,3 +1,4 @@
+// biome-ignore lint/style/useImportType: <explanation>
 import { Buffer } from "node:buffer";
 import puppeteer from "@cloudflare/puppeteer";
 import { Hono } from "hono";

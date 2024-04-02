@@ -1,5 +1,6 @@
 import { Resvg, initWasm } from "@resvg/resvg-wasm";
 import { Hono } from "hono";
+// biome-ignore lint/style/useImportType: <explanation>
 import { FC } from "react";
 import satori from "satori";
 import resvgWasm from "./vender/resvg.wasm";
