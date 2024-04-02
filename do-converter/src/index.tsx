@@ -1,8 +1,8 @@
+import { Resvg, initWasm } from "@resvg/resvg-wasm";
 import { Hono } from "hono";
 import { FC } from "react";
 import satori from "satori";
-import { Resvg, initWasm } from '@resvg/resvg-wasm';
-import resvgWasm from './vender/resvg.wasm';
+import resvgWasm from "./vender/resvg.wasm";
 
 await initWasm(resvgWasm);
 
@@ -97,10 +97,10 @@ app.get("/greet/:id", async (c) => {
 			mode: "original",
 		},
 		background: "lightgray",
-	})
+	});
 
-	const pngData = resvg.render()
-	const pngBuffer = pngData.asPng()
+	const pngData = resvg.render();
+	const pngBuffer = pngData.asPng();
 	return new Response(pngBuffer, {
 		headers: {
 			"Content-Type": "image/png",
