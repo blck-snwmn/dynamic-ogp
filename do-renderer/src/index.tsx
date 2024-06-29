@@ -23,6 +23,7 @@ const Top: FC<{ messages: string[]; id: string }> = (props: {
 			<p>now: {now.toISOString()}</p>
 			<ul>
 				{props.messages.map((message) => {
+					// biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
 					return <li>{message}!!</li>;
 				})}
 			</ul>
