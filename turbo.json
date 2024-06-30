@@ -1,0 +1,17 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"globalEnv": ["CLOUDFLARE_API_TOKEN"],
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", ".wrangler/**", "build/**"]
+		},
+		"deploy": {
+			"dependsOn": ["build"],
+			"outputs": []
+		},
+		"test": {
+			"outputs": []
+		}
+	}
+}
